@@ -48,7 +48,7 @@ func parseInput(inputs []string) []Password {
 	return passwords
 }
 
-func getNumValidPasswords(passwords []Password) int {
+func getNumValidPasswordsP1(passwords []Password) int {
 	numValidPasswords := 0
 	for _, password := range passwords {
 		numRequiredChar := strings.Count(password.password, password.requiredChar)
@@ -59,9 +59,30 @@ func getNumValidPasswords(passwords []Password) int {
 	return numValidPasswords
 }
 
+func getNumValidPasswordsP2(passwords []Password) int {
+	numValidPasswords := 0
+	for _, password := range passwords {
+		firstIndex := password.minNumChar - 1
+		secondIndex := password.maxNumChar - 1
+
+		if len(password.password) <= firstIndex || len(password.password) <= secondIndex {
+			continue
+		}
+
+		// Exclusive OR comparison
+		if (string(password.password[firstIndex]) == password.requiredChar) !=
+			(string(password.password[secondIndex]) == password.requiredChar) {
+			numValidPasswords++
+		}
+	}
+	return numValidPasswords
+}
+
 func main() {
 	inputs := getLines("../input.txt")
 	passwords := parseInput(inputs)
-	numValidPasswords := getNumValidPasswords(passwords)
-	fmt.Println("Number of Valid Passwords:", numValidPasswords)
+	numValidPasswordsP1 := getNumValidPasswordsP1(passwords)
+	fmt.Println("Part One: Number of Valid Passwords:", numValidPasswordsP1)
+	numValidPasswordsP2 := getNumValidPasswordsP2(passwords)
+	fmt.Println("Part Two: Number of Valid Passwords:", numValidPasswordsP2)
 }
