@@ -22,15 +22,15 @@ func getLines(filename string) []string {
 	return inputs
 }
 
-func numOfTreesP1(inputs []string) int {
+func numOfTrees(inputs []string, right, down int) int {
 	lineSize := len(inputs[0])
 	numLines := len(inputs)
 	currentRow := 0
 	currentCol := 0
 	numOfTrees := 0
 	for {
-		currentCol += 3
-		currentRow += 1
+		currentCol += right
+		currentRow += down
 		if currentRow >= numLines {
 			break
 		}
@@ -44,8 +44,28 @@ func numOfTreesP1(inputs []string) int {
 	return numOfTrees
 }
 
+func partTwoSolution(inputs []string) int {
+	type slope struct {
+		right int
+		down  int
+	}
+	slopes := []slope{
+		{right: 1, down: 1},
+		{right: 3, down: 1},
+		{right: 5, down: 1},
+		{right: 7, down: 1},
+		{right: 1, down: 2},
+	}
+	product := 1
+	for _, slope := range slopes {
+		numOfTrees := numOfTrees(inputs, slope.right, slope.down)
+		product *= numOfTrees
+	}
+	return product
+}
+
 func main() {
 	inputs := getLines("../input.txt")
-	numTreesP1 := numOfTreesP1(inputs)
-	fmt.Println("Day 03 - Part One - Num Of Trees:", numTreesP1)
+	fmt.Println("Day 03 - Part One - Num Of Trees:", numOfTrees(inputs, 3, 1))
+	fmt.Println("Day 03 - Part Two - Num Of Trees:", partTwoSolution(inputs))
 }
