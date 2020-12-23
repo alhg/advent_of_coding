@@ -97,10 +97,6 @@ func isValidBirthYear(birthYear string) bool {
 	if year < 1920 || year > 2002 {
 		return false
 	}
-
-	if year > 2002 {
-		fmt.Printf("year: %d\n", year)
-	}
 	return true
 }
 
@@ -117,7 +113,6 @@ func isValidIssueYear(issueYear string) bool {
 	if year < 2010 || year > 2020 {
 		return false
 	}
-
 	return true
 }
 
